@@ -3,22 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Sensual Fest - 7/11/2026</title>
+  <title>Sensual Fest - Control de Entrada</title>
+  
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts Inter -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
             sensual: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
               500: '#f43f5e',
               600: '#e11d48',
               700: '#be123c',
+              800: '#9f1239',
               900: '#881337',
               950: '#4c0519',
             }
@@ -27,6 +32,7 @@
       }
     }
   </script>
+  
   <style>
     body { font-family: 'Inter', sans-serif; }
     button, input, select { touch-action: manipulation; }
@@ -35,13 +41,21 @@
     ::-webkit-scrollbar-thumb { background: #be123c; border-radius: 4px; }
   </style>
 
-  <!-- FIREBASE MODULE SETUP VINCULADO -->
+  <!-- FIREBASE MODULAR CDN INTEGRATION -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getFirestore, collection, doc, setDoc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      setDoc, 
+      onSnapshot, 
+      getDocs, 
+      deleteDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // TUS CREDENCIALES CONFIGURADAS
-    window.firebaseConfig = {
+    // Credenciales oficiales de Firebase Sensual Fest
+    const firebaseConfig = {
       apiKey: "AIzaSyCKd_BGZrzf7I4VARhfBUlENYISYgE-2o8",
       authDomain: "sensualfest2026.firebaseapp.com",
       projectId: "sensualfest2026",
@@ -52,108 +66,124 @@
     };
 
     window.db = null;
-    window.isFirebaseActive = false;
-    window.firestoreTools = { collection, doc, setDoc, updateDoc, onSnapshot };
+    window.isFirebaseOnline = false;
+    window.fsTools = { collection, doc, setDoc, onSnapshot, getDocs, deleteDoc };
 
     try {
-      const app = initializeApp(window.firebaseConfig);
+      const app = initializeApp(firebaseConfig);
       window.db = getFirestore(app);
-      window.isFirebaseActive = true;
-      console.log("Firebase Firestore vinculado correctamente para Sensual Fest");
-    } catch (e) {
-      console.warn("Error al inicializar Firebase, funcionando en modo fallback local", e);
+      window.isFirebaseOnline = true;
+      console.log("🔥 Cloud Firestore conectado exitosamente para Sensual Fest");
+    } catch (err) {
+      console.warn("⚠️ No se pudo inicializar Firebase Cloud Firestore:", err);
     }
   </script>
 </head>
-<body class="h-full flex flex-col antialiased bg-slate-950 text-slate-100">
+<body class="h-full flex flex-col antialiased bg-slate-950 text-slate-100 selection:bg-rose-500 selection:text-white">
 
-  <!-- PANTALLA DE BLOQUEO / LOGIN POR PIN -->
-  <div id="loginScreen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-sensual-900/50 rounded-3xl p-6 sm:p-8 w-full max-w-sm text-center shadow-2xl space-y-6">
+  <!-- PANTALLA DE ACCESO POR PIN -->
+  <div id="loginScreen" class="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-sensual-900/40 rounded-3xl p-6 sm:p-8 w-full max-w-sm text-center shadow-2xl shadow-rose-950/50 space-y-6">
       
-      <!-- LOGO MARCA EN LOGIN -->
-      <div class="flex flex-col items-center justify-center gap-2">
-        <div class="relative w-48 h-20 flex items-center justify-center">
-          <span class="text-3xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-sensual-500 via-rose-400 to-pink-500 drop-shadow-[0_2px_10px_rgba(225,29,72,0.6)]">
-            Sensual <span class="text-2xl text-white block -mt-2">Fest 💋</span>
-          </span>
+      <!-- LOGO DE SENSUAL FEST -->
+      <div class="flex flex-col items-center justify-center space-y-1">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sensual-700 via-rose-600 to-pink-500 flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-sensual-600/40 mb-2">
+          <i class="fa-solid fa-lips"></i>
         </div>
-        <p class="text-xs font-semibold text-rose-400/80 tracking-widest uppercase">7 de Noviembre 2026</p>
+        <h1 class="text-3xl font-black italic tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-sensual-500 via-rose-400 to-pink-500 drop-shadow">
+          Sensual Fest
+        </h1>
+        <p class="text-xs font-semibold text-rose-400/80 tracking-widest uppercase">Sistema de Puerta</p>
       </div>
 
       <div class="space-y-2">
-        <h2 class="text-base font-bold text-slate-200">Ingresá tu PIN de Operador</h2>
-        <p class="text-xs text-slate-400">Ingresá la clave de Maca o Carlos para acceder</p>
+        <h2 class="text-sm font-bold text-slate-200">Ingresá PIN de Operador</h2>
+        <p class="text-xs text-slate-400">Acceso exclusivo Maca (Puerta) o Carlos (Org)</p>
       </div>
 
-      <div class="space-y-4">
-        <input type="password" id="pinInput" placeholder="Ingresá PIN..." onkeydown="if(event.key==='Enter') checkPin()" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-center text-xl font-bold text-white rounded-2xl py-3 outline-none tracking-widest">
+      <div class="space-y-3">
+        <input type="password" id="pinInput" placeholder="Clave..." onkeydown="if(event.key==='Enter') checkPin()" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-center text-xl font-bold text-white rounded-2xl py-3 outline-none tracking-widest transition-all">
         
-        <button onclick="checkPin()" class="w-full bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-sensual-900/40 text-sm active:scale-95 transition-all">
-          <i class="fa-solid fa-lock-open mr-2"></i> Entrar al Sistema
+        <button onclick="checkPin()" class="w-full bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white font-bold py-3.5 rounded-2xl shadow-lg shadow-sensual-950 text-sm active:scale-95 transition-all">
+          <i class="fa-solid fa-lock-open mr-2"></i> Ingresar al Sistema
         </button>
 
-        <p id="loginError" class="text-xs text-rose-500 font-medium hidden">PIN incorrecto. Reintentá.</p>
+        <p id="loginError" class="text-xs text-rose-500 font-semibold hidden">PIN incorrecto. Reintentá.</p>
+      </div>
+
+      <div class="pt-2 text-[11px] text-slate-500 flex items-center justify-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Servidor en la nube listo
       </div>
     </div>
   </div>
 
-  <!-- APLICACIÓN PRINCIPAL (OCULTA HASTA INGRESAR PIN) -->
+  <!-- CONTENEDOR DE LA APLICACIÓN -->
   <div id="appScreen" class="hidden flex-1 flex flex-col min-h-screen">
     
-    <!-- TOP HEADER -->
+    <!-- HEADER NAVBAR SUPERIOR -->
     <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-900 px-4 py-3 shadow-xl">
       <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
         
-        <!-- LOGO TITULO -->
-        <div class="flex items-center justify-between w-full sm:w-auto">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sensual-700 to-rose-500 flex items-center justify-center text-white font-black shadow-lg shadow-sensual-600/30">
-              <i class="fa-solid fa-lips text-lg"></i>
+        <!-- LOGO & SELECTOR DE EVENTO -->
+        <div class="flex items-center justify-between w-full sm:w-auto gap-3">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sensual-700 to-rose-500 flex items-center justify-center text-white font-black shadow-md shadow-sensual-600/30">
+              <i class="fa-solid fa-lips text-sm"></i>
             </div>
             <div>
-              <h1 class="text-xl font-black italic tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-sensual-500 to-pink-400">
-                Sensual Fest <span class="not-italic text-xs text-rose-300 font-semibold px-2 py-0.5 rounded-full bg-sensual-950 border border-sensual-800">7/11/2026</span>
+              <h1 class="text-lg font-black italic tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-sensual-500 to-pink-400">
+                Sensual Fest
               </h1>
-              <p class="text-[11px] font-medium text-slate-400">Lista y Control de Puerta</p>
+              <p class="text-[10px] text-slate-400 font-medium">Control en Tiempo Real</p>
             </div>
           </div>
 
-          <!-- Botón Móvil Informes -->
-          <button onclick="openReportModal()" class="sm:hidden px-3 py-1.5 bg-sensual-700 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 flex items-center gap-1.5">
-            <i class="fa-solid fa-chart-pie"></i> Informes
-          </button>
+          <!-- SELECTOR DE FECHAS / FIESTAS -->
+          <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-calendar-day text-rose-400 text-xs ml-2"></i>
+            <select id="eventSelector" onchange="changeActiveEvent()" class="bg-transparent text-xs font-bold text-slate-200 outline-none pr-1 py-1 cursor-pointer">
+              <option value="fest_07_11_2026">7/11/2026</option>
+            </select>
+            <button onclick="promptCreateEvent()" title="Crear nueva fecha/fiesta" class="w-6 h-6 rounded-lg bg-sensual-950 hover:bg-sensual-900 border border-sensual-800 text-rose-400 flex items-center justify-center text-xs transition-colors">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- ACCIONES & OPERADOR ACTIVO -->
-        <div class="flex items-center justify-between w-full sm:w-auto gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-900">
+        <!-- ACCIONES Y USUARIO ACTIVO -->
+        <div class="flex items-center justify-between w-full sm:w-auto gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-900">
           
-          <!-- INDICADOR OPERADOR -->
-          <div class="flex items-center bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800 text-xs">
-            <span class="text-slate-400 mr-1.5">Operador:</span>
-            <span id="activeOperatorBadge" class="font-bold text-rose-400 flex items-center gap-1.5">
-              <i class="fa-solid fa-user-check"></i> <span id="opNameText">Maca</span>
-            </span>
-            <button onclick="logout()" class="ml-3 text-slate-500 hover:text-white transition-colors" title="Cambiar Operador">
+          <!-- BOTÓN SINCRONIZAR FUERZA MANUAL -->
+          <button onclick="forceSyncData()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-rose-400 rounded-xl transition-all active:scale-95">
+            <i id="syncSpinIcon" class="fa-solid fa-arrows-rotate"></i>
+            <span>Sincronizar</span>
+          </button>
+
+          <!-- INFORMES -->
+          <button onclick="openReportModal()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white font-bold rounded-xl text-xs shadow-md shadow-sensual-950 active:scale-95 transition-all">
+            <i class="fa-solid fa-chart-pie"></i> Informes
+          </button>
+
+          <!-- BADGE OPERADOR Y SALIR -->
+          <div class="flex items-center bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-800 text-xs">
+            <span class="text-slate-400 mr-1.5">Op:</span>
+            <span id="activeOperatorBadge" class="font-bold text-rose-400">Maca</span>
+            <button onclick="logout()" class="ml-2.5 text-slate-500 hover:text-white transition-colors" title="Cambiar Operador">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
 
-          <!-- BOTON INFORMES DESKTOP -->
-          <button onclick="openReportModal()" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white font-bold rounded-xl text-xs shadow-lg shadow-sensual-900/30 active:scale-95 transition-all">
-            <i class="fa-solid fa-chart-pie"></i> Informes del Evento
-          </button>
         </div>
 
       </div>
     </header>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 space-y-4 pb-24 sm:pb-8">
+    <!-- PANEL PRINCIPAL -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 space-y-4 pb-20 sm:pb-8">
       
-      <!-- TARJETAS DE MÉTRICAS RÁPIDAS -->
+      <!-- CARDS DE ESTADÍSTICAS RÁPIDAS -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3">
+        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
           <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
             <i class="fa-solid fa-users"></i>
           </div>
@@ -163,17 +193,17 @@
           </div>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3">
+        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
           <div class="w-10 h-10 rounded-xl bg-sensual-500/10 text-rose-400 flex items-center justify-center text-lg">
             <i class="fa-solid fa-wallet"></i>
           </div>
           <div>
-            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Total Recaudado</p>
+            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Recaudado</p>
             <p class="text-lg font-extrabold text-rose-300" id="stat-recaudado">$0</p>
           </div>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3">
+        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
           <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
             <i class="fa-solid fa-ticket"></i>
           </div>
@@ -183,7 +213,7 @@
           </div>
         </div>
 
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3">
+        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
           <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg">
             <i class="fa-solid fa-door-open"></i>
           </div>
@@ -194,11 +224,11 @@
         </div>
       </div>
 
-      <!-- HERRAMIENTAS: BÚSQUEDA, TABS Y AGREGAR -->
+      <!-- BUSCADOR, NAVEGACIÓN DE PESTAÑAS Y NUEVO INVITADO -->
       <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
         <div class="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
           
-          <!-- BUSCADOR -->
+          <!-- CAMPO BÚSQUEDA -->
           <div class="relative flex-1">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input type="text" id="searchInput" oninput="renderGuestList()" placeholder="Buscar invitado por nombre..." class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs sm:text-sm rounded-xl pl-10 pr-10 py-3 transition-colors outline-none font-medium placeholder-slate-500">
@@ -207,10 +237,10 @@
             </button>
           </div>
 
-          <!-- NAVEGACIÓN VISTAS Y BOTÓN AGREGAR -->
+          <!-- BOTONES NAVEGACIÓN Y ALTA -->
           <div class="flex flex-wrap items-center gap-2">
             
-            <!-- PESTAÑAS PRINCIPAL / ELIMINADOS -->
+            <!-- VISTA PRINCIPAL O PAPELERA -->
             <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center text-xs">
               <button id="tabMain" onclick="switchView('active')" class="px-3 py-2 rounded-lg font-bold bg-sensual-600 text-white shadow">
                 <i class="fa-solid fa-users mr-1"></i> Lista Principal
@@ -222,25 +252,25 @@
 
             <!-- FILTRO ESTADO -->
             <select id="filterStatus" onchange="renderGuestList()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-sensual-600">
-              <option value="ALL">Todos los Estados</option>
-              <option value="DENTRO">Dentro</option>
+              <option value="ALL">Todos</option>
+              <option value="DENTRO">Ingresaron</option>
               <option value="PENDIENTE">Pendientes</option>
             </select>
 
             <!-- NUEVO INVITADO -->
             <button onclick="toggleAddForm()" class="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white rounded-xl text-xs font-bold transition-all border border-sensual-700 shadow-md">
               <i class="fa-solid fa-user-plus"></i>
-              <span>Nuevo Invitado</span>
+              <span>Cargar Invitado</span>
             </button>
           </div>
 
         </div>
 
-        <!-- FORMULARIO NUEVO INVITADO -->
+        <!-- FORMULARIO DE ALTA DE INVITADOS -->
         <form id="addGuestForm" onsubmit="handleAddGuest(event)" class="hidden border-t border-slate-800/80 pt-4 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           <div class="lg:col-span-2">
             <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nombre Completo</label>
-            <input type="text" id="newGuestName" required placeholder="Ej: Mariana Gómez" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
+            <input type="text" id="newGuestName" required placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
           </div>
 
           <div>
@@ -273,51 +303,51 @@
 
           <div class="sm:col-span-2 lg:col-span-5 flex justify-end gap-2 pt-2">
             <button type="button" onclick="toggleAddForm()" class="px-4 py-2 bg-slate-950 hover:bg-slate-800 text-slate-400 rounded-xl text-xs font-semibold">Cancelar</button>
-            <button type="submit" class="px-5 py-2 bg-sensual-600 hover:bg-sensual-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sensual-900/40">Guardar Invitado</button>
+            <button type="submit" class="px-5 py-2 bg-sensual-600 hover:bg-sensual-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sensual-900/40">Guardar Registro</button>
           </div>
         </form>
       </div>
 
-      <!-- TABLA Y LISTADO DE INVITADOS -->
+      <!-- CONTENEDOR TABLA Y TARJETAS MÓVILES -->
       <div class="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
         
-        <!-- VISUALIZACIÓN DESKTOP -->
+        <!-- COMPONENTE TABLA DESKTOP -->
         <div class="hidden md:block overflow-x-auto">
           <table class="w-full text-left text-xs border-collapse">
             <thead>
               <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
-                <th class="py-3.5 px-4">Nombre Completo</th>
+                <th class="py-3.5 px-4">Invitado / Nombre</th>
                 <th class="py-3.5 px-4">Tipo Entrada</th>
                 <th class="py-3.5 px-4">Monto</th>
                 <th class="py-3.5 px-4">Medio Pago</th>
                 <th class="py-3.5 px-4">Comprobante</th>
                 <th class="py-3.5 px-4">Creado Por</th>
-                <th class="py-3.5 px-4">Validado Por</th>
+                <th class="py-3.5 px-4">Ingreso / Validó</th>
                 <th class="py-3.5 px-4 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody id="guestTableBody" class="divide-y divide-slate-800/60 font-medium">
-              <!-- Renderizado dinámico -->
+              <!-- Carga dinámicamente -->
             </tbody>
           </table>
         </div>
 
-        <!-- VISUALIZACIÓN CELULAR -->
+        <!-- COMPONENTE CARDS MÓVIL -->
         <div id="guestCardsMobile" class="md:hidden divide-y divide-slate-800/80">
-          <!-- Renderizado dinámico celular -->
+          <!-- Carga dinámicamente -->
         </div>
 
         <!-- ESTADO VACÍO -->
-        <div id="emptyState" class="hidden py-12 text-center text-slate-500">
+        <div id="emptyState" class="hidden py-14 text-center text-slate-500">
           <i class="fa-solid fa-users-slash text-4xl mb-3 text-slate-600"></i>
-          <p class="text-sm font-semibold">No se encontraron registros en esta vista</p>
+          <p class="text-sm font-semibold">No hay invitados en esta lista</p>
         </div>
       </div>
 
     </main>
   </div>
 
-  <!-- MODAL DE INFORMES (ESTADÍSTICAS DEL EVENTO) -->
+  <!-- MODAL DE INFORMES DEL EVENTO -->
   <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
       
@@ -328,7 +358,7 @@
           </div>
           <div>
             <h2 class="font-bold text-lg text-white">Informe Sensual Fest</h2>
-            <p class="text-xs text-slate-400">Estadísticas y Caja en Tiempo Real</p>
+            <p class="text-xs text-slate-400" id="reportEventTitle">Estadísticas e Ingresos</p>
           </div>
         </div>
         <button onclick="closeReportModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
@@ -340,15 +370,15 @@
         
         <div class="grid grid-cols-2 gap-3">
           <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl">
-            <p class="text-slate-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">Asistencia Actual</p>
+            <p class="text-slate-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">Porcentaje Asistencia</p>
             <p class="text-2xl font-black text-white" id="rep-asistencia">0%</p>
-            <p class="text-[11px] text-slate-400 mt-1" id="rep-asistencia-det">0 ingresados de 0 totales</p>
+            <p class="text-[11px] text-slate-400 mt-1" id="rep-asistencia-det">0 ingresados de 0 en lista</p>
           </div>
 
           <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl">
             <p class="text-slate-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">Recaudación Total</p>
             <p class="text-2xl font-black text-emerald-400" id="rep-total-monto">$0</p>
-            <p class="text-[11px] text-slate-400 mt-1">Suma de entradas cobradas</p>
+            <p class="text-[11px] text-slate-400 mt-1">Total abonado por ingresados</p>
           </div>
         </div>
 
@@ -381,7 +411,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
             <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[11px] border-b border-slate-800 pb-2">
-              Medios de Pago
+              Medios de Pago Cobrados
             </h3>
             <div class="flex justify-between py-1">
               <span class="text-slate-400">Mercado Pago:</span>
@@ -395,23 +425,31 @@
 
           <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
             <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[11px] border-b border-slate-800 pb-2">
-              Confirmaciones por Operador
+              Ingresos Validados Por
             </h3>
             <div class="flex justify-between py-1">
               <span class="text-slate-400">Maca (Puerta):</span>
-              <span class="font-bold text-rose-400" id="rep-op-maca">0 val.</span>
+              <span class="font-bold text-rose-400" id="rep-op-maca">0 personas</span>
             </div>
             <div class="flex justify-between py-1">
               <span class="text-slate-400">Carlos (Org):</span>
-              <span class="font-bold text-indigo-400" id="rep-op-carlos">0 val.</span>
+              <span class="font-bold text-indigo-400" id="rep-op-carlos">0 personas</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <div class="p-4 border-t border-slate-800 bg-slate-950 flex justify-end">
-        <button onclick="closeReportModal()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+      <div class="p-4 border-t border-slate-800 bg-slate-950 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <button onclick="downloadCSV()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900/50 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <i class="fa-solid fa-file-excel"></i> Descargar CSV (Excel)
+          </button>
+          <button onclick="copyWhatsAppSummary()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <i class="fa-brands fa-whatsapp"></i> Copiar Resumen
+          </button>
+        </div>
+        <button onclick="closeReportModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
           Cerrar
         </button>
       </div>
@@ -419,34 +457,31 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICACIÓN -->
-  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-800 border border-slate-700 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs">
+  <!-- TOAST NOTIFICADOR -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-slate-800 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs">
     <i class="fa-solid fa-circle-check text-rose-400 text-lg"></i>
-    <span id="toastMsg">Notificación</span>
+    <span id="toastMsg">Mensaje de confirmación</span>
   </div>
 
-  <!-- LÓGICA DE APLICACIÓN E INTEGRACIÓN FIREBASE -->
+  <!-- LÓGICA COMPLETA DE LA APLICACIÓN Y NUBE -->
   <script>
-    const STORAGE_KEY = 'sensual_fest_2026_db';
-    let currentOperator = ''; 
+    let currentOperator = '';
     let currentView = 'active'; // 'active' o 'trash'
+    let activeEventId = 'fest_07_11_2026';
+    
+    let eventsList = [
+      { id: 'fest_07_11_2026', name: '7/11/2026' }
+    ];
 
-    const defaultGuests = [
+    let guests = [];
+    let unsubscribeFirestore = null;
+
+    const defaultInitialData = [
       { id: '1', name: 'Sofía Rodríguez', type: 'ANTICIPADA', price: 8000, payment: 'Mercado Pago', receipt: 'Entregado', checkedIn: false, createdBy: 'Carlos', confirmedBy: '', confirmedAt: '', deleted: false },
       { id: '2', name: 'Mateo González', type: 'PUERTA', price: 12000, payment: 'Efectivo', receipt: 'Entregado', checkedIn: false, createdBy: 'Maca', confirmedBy: '', confirmedAt: '', deleted: false }
     ];
 
-    let guests = [];
-
-    // BroadcastChannel para respaldar sincronización offline entre pestañas
-    const channel = new BroadcastChannel('sensual_fest_sync');
-    channel.onmessage = (event) => {
-      if (event.data === 'sync' && !window.isFirebaseActive) {
-        loadDataFromLocal(false);
-      }
-    };
-
-    // VERIFICACIÓN DE PIN DE INGRESO
+    // INGRESO POR PIN
     function checkPin() {
       const pin = document.getElementById('pinInput').value.trim();
       const err = document.getElementById('loginError');
@@ -463,10 +498,11 @@
       err.classList.add('hidden');
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('appScreen').classList.remove('hidden');
-      document.getElementById('opNameText').innerText = currentOperator;
+      document.getElementById('activeOperatorBadge').innerText = currentOperator;
 
-      initAppSync();
-      showToast(`¡Bienvenido/a ${currentOperator}!`);
+      loadEventsList();
+      bindFirestoreSync();
+      showToast(`Acceso concedido como ${currentOperator}`);
     }
 
     function logout() {
@@ -476,64 +512,180 @@
       document.getElementById('appScreen').classList.add('hidden');
     }
 
-    // INICIALIZAR BASE DE DATOS (FIREBASE FIRESTORE EN TIEMPO REAL)
-    function initAppSync() {
-      if (window.isFirebaseActive && window.db && window.firestoreTools) {
-        const { collection, onSnapshot } = window.firestoreTools;
-        const colRef = collection(window.db, "sensual_fest_guests");
-        
-        // Escucha cambios instantáneos desde cualquier teléfono
-        onSnapshot(colRef, (snapshot) => {
-          let remoteData = [];
+    // MANEJO DE EVENTOS / FECHAS
+    function loadEventsList() {
+      const savedEvents = localStorage.getItem('sensual_events_list');
+      if (savedEvents) {
+        try { eventsList = JSON.parse(savedEvents); } catch(e){}
+      }
+      renderEventOptions();
+    }
+
+    function renderEventOptions() {
+      const selector = document.getElementById('eventSelector');
+      selector.innerHTML = '';
+      eventsList.forEach(ev => {
+        const opt = document.createElement('option');
+        opt.value = ev.id;
+        opt.innerText = ev.name;
+        if (ev.id === activeEventId) opt.selected = true;
+        selector.appendChild(opt);
+      });
+    }
+
+    function changeActiveEvent() {
+      activeEventId = document.getElementById('eventSelector').value;
+      bindFirestoreSync();
+      showToast(`Cargando fecha: ${getEventName(activeEventId)}`);
+    }
+
+    function promptCreateEvent() {
+      const newName = prompt("Ingresá el nombre o fecha de la nueva fiesta (Ej: 15/12/2026):");
+      if (!newName || !newName.trim()) return;
+
+      const cleanId = 'fest_' + newName.trim().replace(/[^a-zA-Z0-9]/g, '_').toLowerCase();
+      
+      if (!eventsList.find(e => e.id === cleanId)) {
+        eventsList.push({ id: cleanId, name: newName.trim() });
+        localStorage.setItem('sensual_events_list', JSON.stringify(eventsList));
+      }
+
+      activeEventId = cleanId;
+      renderEventOptions();
+      bindFirestoreSync();
+      showToast(`Nueva fecha creada: ${newName.trim()}`);
+    }
+
+    function getEventName(id) {
+      const found = eventsList.find(e => e.id === id);
+      return found ? found.name : '7/11/2026';
+    }
+
+    // VINCULACIÓN EN TIEMPO REAL CON CLOUD FIRESTORE
+    function bindFirestoreSync() {
+      if (unsubscribeFirestore) {
+        unsubscribeFirestore();
+      }
+
+      const storageKey = `sensual_guests_${activeEventId}`;
+
+      if (window.isFirebaseOnline && window.db && window.fsTools) {
+        const { collection, onSnapshot } = window.fsTools;
+        const colRef = collection(window.db, "events", activeEventId, "guests");
+
+        unsubscribeFirestore = onSnapshot(colRef, (snapshot) => {
+          let docs = [];
           snapshot.forEach((doc) => {
-            remoteData.push(doc.data());
+            docs.push(doc.data());
           });
 
-          if (remoteData.length > 0) {
-            guests = remoteData;
-          } else if (guests.length === 0) {
-            // Si la base en la nube recién nace, subir datos por defecto
-            guests = [...defaultGuests];
-            saveData(false);
+          if (docs.length > 0) {
+            guests = docs;
+            localStorage.setItem(storageKey, JSON.stringify(guests));
+          } else {
+            // Si la colección está vacía, cargar local o inicial
+            const savedLocal = localStorage.getItem(storageKey);
+            if (savedLocal) {
+              try { guests = JSON.parse(savedLocal); } catch(e) { guests = [...defaultInitialData]; }
+            } else {
+              guests = [...defaultInitialData];
+            }
+            saveAllToFirestore();
           }
+
           renderGuestList();
           updateStats();
-        }, (error) => {
-          console.error("Error en Firestore:", error);
-          loadDataFromLocal();
+        }, (err) => {
+          console.error("Error al escuchar Firestore:", err);
+          loadFromLocalStorage(storageKey);
         });
       } else {
-        loadDataFromLocal();
+        loadFromLocalStorage(storageKey);
       }
     }
 
-    function loadDataFromLocal(broadcast = true) {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) {
-        try { guests = JSON.parse(saved); } catch(e) { guests = [...defaultGuests]; }
+    function loadFromLocalStorage(key) {
+      const savedLocal = localStorage.getItem(key);
+      if (savedLocal) {
+        try { guests = JSON.parse(savedLocal); } catch(e) { guests = [...defaultInitialData]; }
       } else {
-        guests = [...defaultGuests];
-        saveData(false);
+        guests = [...defaultInitialData];
       }
       renderGuestList();
       updateStats();
-      if (broadcast) channel.postMessage('sync');
     }
 
-    function saveData(broadcast = true) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(guests));
-      if (broadcast) channel.postMessage('sync');
-      
-      // Guardar instantáneamente en Cloud Firestore
-      if (window.isFirebaseActive && window.db && window.firestoreTools) {
-        const { doc, setDoc } = window.firestoreTools;
-        guests.forEach(guest => {
-          const docRef = doc(window.db, "sensual_fest_guests", guest.id);
-          setDoc(docRef, guest, { merge: true }).catch(err => console.error("Error guardando elemento:", err));
+    // FORZAR SINCRONIZACIÓN MANUAL
+    async function forceSyncData() {
+      const icon = document.getElementById('syncSpinIcon');
+      icon.classList.add('fa-spin');
+
+      const storageKey = `sensual_guests_${activeEventId}`;
+
+      if (window.isFirebaseOnline && window.db && window.fsTools) {
+        try {
+          const { collection, getDocs, setDoc, doc } = window.fsTools;
+          const colRef = collection(window.db, "events", activeEventId, "guests");
+          
+          // Subir locales a la nube
+          for (let g of guests) {
+            await setDoc(doc(colRef, g.id), g, { merge: true });
+          }
+
+          // Descargar versión más reciente de la nube
+          const snapshot = await getDocs(colRef);
+          let remote = [];
+          snapshot.forEach(d => remote.push(d.data()));
+
+          if (remote.length > 0) {
+            guests = remote;
+            localStorage.setItem(storageKey, JSON.stringify(guests));
+          }
+
+          renderGuestList();
+          updateStats();
+          showToast("¡Datos sincronizados correctamente con la Nube!");
+        } catch (err) {
+          console.error("Error al forzar sync:", err);
+          showToast("Error al conectar con la Nube");
+        }
+      } else {
+        showToast("Modo Offline: datos guardados en el teléfono");
+      }
+
+      setTimeout(() => icon.classList.remove('fa-spin'), 600);
+    }
+
+    function saveSingleGuest(guest) {
+      const storageKey = `sensual_guests_${activeEventId}`;
+      localStorage.setItem(storageKey, JSON.stringify(guests));
+
+      if (window.isFirebaseOnline && window.db && window.fsTools) {
+        const { doc, setDoc } = window.fsTools;
+        const docRef = doc(window.db, "events", activeEventId, "guests", guest.id);
+        setDoc(docRef, guest, { merge: true }).catch(err => console.error("Error guardando en Firestore:", err));
+      }
+    }
+
+    function saveAllToFirestore() {
+      if (window.isFirebaseOnline && window.db && window.fsTools) {
+        const { doc, setDoc } = window.fsTools;
+        guests.forEach(g => {
+          const docRef = doc(window.db, "events", activeEventId, "guests", g.id);
+          setDoc(docRef, g, { merge: true }).catch(err => console.error("Error guardando en Firestore:", err));
         });
       }
     }
 
+    function deleteGuestFromFirestore(guestId) {
+      if (window.isFirebaseOnline && window.db && window.fsTools) {
+        const { doc, deleteDoc } = window.fsTools;
+        const docRef = doc(window.db, "events", activeEventId, "guests", guestId);
+        deleteDoc(docRef).catch(err => console.error("Error eliminando en Firestore:", err));
+      }
+    }
+
+    // ACCIONES DE LA LISTA
     function switchView(view) {
       currentView = view;
       const tabMain = document.getElementById('tabMain');
@@ -586,7 +738,7 @@
       else if (type === 'PUERTA') price = 12000;
 
       const newGuest = {
-        id: Date.now().toString(),
+        id: 'g_' + Date.now().toString(),
         name,
         type,
         price,
@@ -600,7 +752,7 @@
       };
 
       guests.unshift(newGuest);
-      saveData();
+      saveSingleGuest(newGuest);
       renderGuestList();
       updateStats();
 
@@ -618,14 +770,14 @@
         const now = new Date();
         guest.confirmedBy = currentOperator;
         guest.confirmedAt = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        showToast(`Ingreso validado por ${currentOperator}`);
+        showToast(`Ingreso de ${guest.name} validado por ${currentOperator}`);
       } else {
         guest.confirmedBy = '';
         guest.confirmedAt = '';
-        showToast(`Ingreso anulado`);
+        showToast(`Ingreso anulado para ${guest.name}`);
       }
 
-      saveData();
+      saveSingleGuest(guest);
       renderGuestList();
       updateStats();
     }
@@ -635,7 +787,7 @@
       if (!guest) return;
 
       guest.deleted = true;
-      saveData();
+      saveSingleGuest(guest);
       renderGuestList();
       updateStats();
       showToast(`${guest.name} movido a la Papelera`);
@@ -646,10 +798,24 @@
       if (!guest) return;
 
       guest.deleted = false;
-      saveData();
+      saveSingleGuest(guest);
       renderGuestList();
       updateStats();
       showToast(`${guest.name} restaurado a la lista principal`);
+    }
+
+    function permanentDeleteGuest(id) {
+      if (!confirm("¿Seguro que querés eliminar definitivamente a este invitado?")) return;
+      
+      const guest = guests.find(g => g.id === id);
+      guests = guests.filter(g => g.id !== id);
+      
+      deleteGuestFromFirestore(id);
+      localStorage.setItem(`sensual_guests_${activeEventId}`, JSON.stringify(guests));
+
+      renderGuestList();
+      updateStats();
+      showToast(`Invitado eliminado definitivamente`);
     }
 
     function toggleReceipt(id) {
@@ -659,10 +825,11 @@
       if (guest.receipt === 'Entregado') guest.receipt = 'Pendiente';
       else if (guest.receipt === 'Pendiente') guest.receipt = 'Entregado';
       
-      saveData();
+      saveSingleGuest(guest);
       renderGuestList();
     }
 
+    // RENDERIZADO DE TABLA Y TARJETAS
     function renderGuestList() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
       const filter = document.getElementById('filterStatus').value;
@@ -702,12 +869,12 @@
         const receiptBadge = getReceiptBadgeHTML(guest.receipt, guest.id);
         const priceFormatted = `$${guest.price.toLocaleString('es-AR')}`;
 
-        // FILA DESKTOP
+        // DESKTOP ROW
         const tr = document.createElement('tr');
         tr.className = `transition-colors hover:bg-slate-950/60 ${guest.checkedIn ? 'bg-emerald-950/20' : ''}`;
         tr.innerHTML = `
           <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full ${guest.checkedIn ? 'bg-emerald-400' : 'bg-slate-600'}"></span>
+            <span class="w-2.5 h-2.5 rounded-full ${guest.checkedIn ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-slate-600'}"></span>
             ${guest.name}
           </td>
           <td class="py-3.5 px-4">${typeBadge}</td>
@@ -732,8 +899,11 @@
           <td class="py-3.5 px-4 text-right">
             <div class="flex items-center justify-end gap-1.5">
               ${currentView === 'trash' ? `
-                <button onclick="restoreGuest('${guest.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900">
+                <button onclick="restoreGuest('${guest.id}')" class="px-2.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900">
                   <i class="fa-solid fa-rotate-left mr-1"></i> Restaurar
+                </button>
+                <button onclick="permanentDeleteGuest('${guest.id}')" class="p-1.5 text-slate-500 hover:text-rose-500 transition-colors" title="Eliminar Definitivamente">
+                  <i class="fa-solid fa-xmark"></i>
                 </button>
               ` : `
                 <button onclick="toggleCheckIn('${guest.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs shadow-sm ${guest.checkedIn ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-emerald-600 hover:bg-emerald-500 text-white'}">
@@ -748,14 +918,14 @@
         `;
         tableBody.appendChild(tr);
 
-        // CARD CELULAR
+        // MOBILE CARD
         const card = document.createElement('div');
         card.className = `p-4 space-y-3 transition-colors ${guest.checkedIn ? 'bg-emerald-950/15' : ''}`;
         card.innerHTML = `
           <div class="flex items-start justify-between gap-2">
             <div>
               <h4 class="font-bold text-sm text-white flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full ${guest.checkedIn ? 'bg-emerald-400' : 'bg-slate-600'}"></span>
+                <span class="w-2.5 h-2.5 rounded-full ${guest.checkedIn ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-slate-600'}"></span>
                 ${guest.name}
               </h4>
               <div class="flex items-center gap-2 mt-1">
@@ -772,7 +942,7 @@
 
           <div class="flex items-center justify-between text-xs bg-slate-950 p-2.5 rounded-xl border border-slate-800/80">
             <div>
-              <span class="text-slate-500 block text-[10px]">Creado por: <strong class="text-slate-300">${guest.createdBy || 'Sistema'}</strong></span>
+              <span class="text-slate-500 block text-[10px]">Cargado por: <strong class="text-slate-300">${guest.createdBy || 'Sistema'}</strong></span>
               <span class="font-semibold text-slate-300">${guest.payment}</span>
             </div>
             <div>${receiptBadge}</div>
@@ -787,9 +957,14 @@
             </div>
 
             ${currentView === 'trash' ? `
-              <button onclick="restoreGuest('${guest.id}')" class="px-4 py-2 rounded-xl font-bold text-xs bg-slate-800 text-emerald-400 border border-emerald-900 flex items-center gap-1">
-                <i class="fa-solid fa-rotate-left"></i> Restaurar
-              </button>
+              <div class="flex items-center gap-2">
+                <button onclick="restoreGuest('${guest.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-emerald-400 border border-emerald-900 flex items-center gap-1">
+                  <i class="fa-solid fa-rotate-left"></i> Restaurar
+                </button>
+                <button onclick="permanentDeleteGuest('${guest.id}')" class="px-2 py-1.5 text-rose-500 hover:text-rose-400">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
             ` : `
               <button onclick="toggleCheckIn('${guest.id}')" class="px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-transform active:scale-95 ${guest.checkedIn ? 'bg-slate-800 text-slate-300' : 'bg-emerald-600 text-white'}">
                 ${guest.checkedIn ? 'Anular' : 'Confirmar Ingreso'}
@@ -841,9 +1016,12 @@
       document.getElementById('stat-puerta').innerText = cantPuer;
     }
 
+    // INFORMES Y EXPORTACIÓN COMPLETA
     function openReportModal() {
       const modal = document.getElementById('reportModal');
       modal.classList.remove('hidden');
+
+      document.getElementById('reportEventTitle').innerText = `Sensual Fest - ${getEventName(activeEventId)}`;
 
       const activeGuests = guests.filter(g => !g.deleted);
       const total = activeGuests.length;
@@ -852,7 +1030,7 @@
       const porcentaje = total > 0 ? Math.round((ingresados / total) * 100) : 0;
 
       document.getElementById('rep-asistencia').innerText = `${porcentaje}%`;
-      document.getElementById('rep-asistencia-det').innerText = `${ingresados} ingresados de ${total} totales`;
+      document.getElementById('rep-asistencia-det').innerText = `${ingresados} ingresados de ${total} en lista`;
 
       const totalRecaudado = checkedInList.reduce((acc, g) => acc + g.price, 0);
       document.getElementById('rep-total-monto').innerText = `$${totalRecaudado.toLocaleString('es-AR')}`;
@@ -881,12 +1059,82 @@
       const macaCount = checkedInList.filter(g => g.confirmedBy === 'Maca').length;
       const carlosCount = checkedInList.filter(g => g.confirmedBy === 'Carlos').length;
 
-      document.getElementById('rep-op-maca').innerText = `${macaCount} val.`;
-      document.getElementById('rep-op-carlos').innerText = `${carlosCount} val.`;
+      document.getElementById('rep-op-maca').innerText = `${macaCount} personas`;
+      document.getElementById('rep-op-carlos').innerText = `${carlosCount} personas`;
     }
 
     function closeReportModal() {
       document.getElementById('reportModal').classList.add('hidden');
+    }
+
+    function downloadCSV() {
+      const activeGuests = guests.filter(g => !g.deleted);
+      if (activeGuests.length === 0) {
+        showToast("No hay datos para exportar");
+        return;
+      }
+
+      let csv = "Nombre,Tipo Entrada,Precio,Medio Pago,Comprobante,Estado,Creado Por,Valido Por,Hora Ingreso\n";
+      activeGuests.forEach(g => {
+        const estado = g.checkedIn ? "Ingresó" : "Pendiente";
+        csv += `"${g.name}","${g.type}",${g.price},"${g.payment}","${g.receipt}","${estado}","${g.createdBy || ''}","${g.confirmedBy || ''}","${g.confirmedAt || ''}"\n`;
+      });
+
+      const blob = new Blob(["\ufeff" + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `SensualFest_${getEventName(activeEventId).replace(/\//g,'-')}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Descargando archivo CSV para Excel...");
+    }
+
+    function copyWhatsAppSummary() {
+      const activeGuests = guests.filter(g => !g.deleted);
+      const checkedInList = activeGuests.filter(g => g.checkedIn);
+      const totalRecaudado = checkedInList.reduce((acc, g) => acc + g.price, 0);
+      const ant = checkedInList.filter(g => g.type === 'ANTICIPADA').length;
+      const puer = checkedInList.filter(g => g.type === 'PUERTA').length;
+      const free = checkedInList.filter(g => g.type === 'FREE' || g.type === 'INVITADO').length;
+      const mp = checkedInList.filter(g => g.payment === 'Mercado Pago').reduce((acc, g) => acc + g.price, 0);
+      const ef = checkedInList.filter(g => g.payment === 'Efectivo').reduce((acc, g) => acc + g.price, 0);
+
+      const summary = `💋 *INFORME SENSUAL FEST* (${getEventName(activeEventId)})\n` +
+        `----------------------------------------\n` +
+        `👥 *Ingresaron:* ${checkedInList.length} de ${activeGuests.length} personas\n` +
+        `💰 *Total Recaudado:* $${totalRecaudado.toLocaleString('es-AR')}\n\n` +
+        `🎟️ *Entradas:* \n` +
+        `• Anticipadas ($8K): ${ant}\n` +
+        `• Puerta ($12K): ${puer}\n` +
+        `• Free/Invitados: ${free}\n\n` +
+        `💳 *Medios de Pago:*\n` +
+        `• Mercado Pago: $${mp.toLocaleString('es-AR')}\n` +
+        `• Efectivo: $${ef.toLocaleString('es-AR')}\n\n` +
+        `✅ *Validaciones:* Maca (${checkedInList.filter(g => g.confirmedBy === 'Maca').length}) | Carlos (${checkedInList.filter(g => g.confirmedBy === 'Carlos').length})`;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(summary).then(() => {
+          showToast("¡Resumen copiado para WhatsApp!");
+        }).catch(() => fallbackCopyText(summary));
+      } else {
+        fallbackCopyText(summary);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast("¡Resumen copiado para WhatsApp!");
+      } catch (err) {
+        alert(text);
+      }
+      document.body.removeChild(textArea);
     }
 
     function showToast(message) {
