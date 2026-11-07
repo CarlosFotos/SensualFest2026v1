@@ -36,7 +36,7 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     button, input, select { touch-action: manipulation; }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #090d16; }
     ::-webkit-scrollbar-thumb { background: #be123c; border-radius: 4px; }
   </style>
@@ -121,42 +121,42 @@
   <div id="appScreen" class="hidden flex-1 flex flex-col min-h-screen">
     
     <!-- HEADER NAVBAR SUPERIOR -->
-    <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-900 px-4 py-3 shadow-xl">
-      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+    <header class="sticky top-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-900 px-3 py-2.5 shadow-xl">
+      <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
         
         <!-- LOGO & SELECTOR DE EVENTO -->
-        <div class="flex items-center justify-between w-full sm:w-auto gap-3">
-          <div class="flex items-center gap-2.5">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sensual-700 to-rose-500 flex items-center justify-center text-white font-black shadow-md shadow-sensual-600/30">
-              <i class="fa-solid fa-lips text-sm"></i>
+        <div class="flex items-center justify-between w-full sm:w-auto gap-2">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-sensual-700 to-rose-500 flex items-center justify-center text-white font-black shadow-md shadow-sensual-600/30">
+              <i class="fa-solid fa-lips text-xs"></i>
             </div>
             <div>
-              <h1 class="text-lg font-black italic tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-sensual-500 to-pink-400">
+              <h1 class="text-base font-black italic tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-sensual-500 to-pink-400">
                 Sensual Fest
               </h1>
-              <p class="text-[10px] text-slate-400 font-medium">Control en Tiempo Real</p>
+              <p class="text-[9px] text-slate-400 font-medium">Control en Tiempo Real</p>
             </div>
           </div>
 
           <!-- SELECTOR DE FECHAS / FIESTAS -->
-          <div class="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800">
-            <i class="fa-solid fa-calendar-day text-rose-400 text-xs ml-2"></i>
-            <select id="eventSelector" onchange="changeActiveEvent()" class="bg-transparent text-xs font-bold text-slate-200 outline-none pr-1 py-1 cursor-pointer">
+          <div class="flex items-center gap-1 bg-slate-900 px-2 py-1 rounded-xl border border-slate-800">
+            <i class="fa-solid fa-calendar-day text-rose-400 text-xs"></i>
+            <select id="eventSelector" onchange="changeActiveEvent()" class="bg-transparent text-xs font-bold text-slate-200 outline-none pr-1 py-0.5 cursor-pointer">
               <option value="fest_07_11_2026">7/11/2026</option>
             </select>
-            <button onclick="promptCreateEvent()" title="Crear nueva fecha/fiesta" class="w-6 h-6 rounded-lg bg-sensual-950 hover:bg-sensual-900 border border-sensual-800 text-rose-400 flex items-center justify-center text-xs transition-colors">
+            <button onclick="promptCreateEvent()" title="Crear nueva fecha/fiesta" class="w-5 h-5 rounded-lg bg-sensual-950 hover:bg-sensual-900 border border-sensual-800 text-rose-400 flex items-center justify-center text-[10px] transition-colors">
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>
         </div>
 
         <!-- ACCIONES Y USUARIO ACTIVO -->
-        <div class="flex items-center justify-between w-full sm:w-auto gap-2.5 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-900">
+        <div class="flex items-center justify-between w-full sm:w-auto gap-2 pt-1.5 sm:pt-0 border-t sm:border-t-0 border-slate-900">
           
-          <!-- BOTÓN SINCRONIZAR FUERZA MANUAL -->
-          <button onclick="forceSyncData()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-rose-400 rounded-xl transition-all active:scale-95">
-            <i id="syncSpinIcon" class="fa-solid fa-arrows-rotate"></i>
-            <span>Sincronizar</span>
+          <!-- BOTÓN SINCRONIZAR -->
+          <button onclick="forceSyncData()" class="flex items-center gap-1 px-2.5 py-1.5 bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-bold text-rose-400 rounded-xl transition-all active:scale-95">
+            <i id="syncSpinIcon" class="fa-solid fa-arrows-rotate text-[11px]"></i>
+            <span>Sync</span>
           </button>
 
           <!-- INFORMES -->
@@ -165,10 +165,10 @@
           </button>
 
           <!-- BADGE OPERADOR Y SALIR -->
-          <div class="flex items-center bg-slate-900 px-2.5 py-1.5 rounded-xl border border-slate-800 text-xs">
-            <span class="text-slate-400 mr-1.5">Op:</span>
+          <div class="flex items-center bg-slate-900 px-2 py-1.5 rounded-xl border border-slate-800 text-xs">
+            <span class="text-slate-400 mr-1">Op:</span>
             <span id="activeOperatorBadge" class="font-bold text-rose-400">Maca</span>
-            <button onclick="logout()" class="ml-2.5 text-slate-500 hover:text-white transition-colors" title="Cambiar Operador">
+            <button onclick="logout()" class="ml-2 text-slate-500 hover:text-white transition-colors" title="Cambiar Operador">
               <i class="fa-solid fa-right-from-bracket"></i>
             </button>
           </div>
@@ -178,60 +178,17 @@
       </div>
     </header>
 
-    <!-- PANEL PRINCIPAL -->
-    <main class="flex-1 max-w-6xl w-full mx-auto p-4 space-y-4 pb-20 sm:pb-8">
+    <!-- PANEL PRINCIPAL (SIN TARJETAS DE ESTADÍSTICA PARA DAR MÁS ESPACIO) -->
+    <main class="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-4 space-y-3 pb-24">
       
-      <!-- CARDS DE ESTADÍSTICAS RÁPIDAS -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
-            <i class="fa-solid fa-users"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Ingresaron</p>
-            <p class="text-lg font-extrabold text-emerald-400" id="stat-ingresados">0 / 0</p>
-          </div>
-        </div>
-
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
-          <div class="w-10 h-10 rounded-xl bg-sensual-500/10 text-rose-400 flex items-center justify-center text-lg">
-            <i class="fa-solid fa-wallet"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Recaudado</p>
-            <p class="text-lg font-extrabold text-rose-300" id="stat-recaudado">$0</p>
-          </div>
-        </div>
-
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
-          <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
-            <i class="fa-solid fa-ticket"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Anticipadas</p>
-            <p class="text-lg font-extrabold text-blue-300" id="stat-anticipadas">0</p>
-          </div>
-        </div>
-
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-3 flex items-center gap-3 shadow-lg">
-          <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-lg">
-            <i class="fa-solid fa-door-open"></i>
-          </div>
-          <div>
-            <p class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">En Puerta</p>
-            <p class="text-lg font-extrabold text-amber-300" id="stat-puerta">0</p>
-          </div>
-        </div>
-      </div>
-
       <!-- BUSCADOR, NAVEGACIÓN DE PESTAÑAS Y NUEVO INVITADO -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
-        <div class="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-3 sm:p-4 space-y-3 shadow-xl">
+        <div class="flex flex-col lg:flex-row gap-2.5 items-stretch lg:items-center justify-between">
           
           <!-- CAMPO BÚSQUEDA -->
           <div class="relative flex-1">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input type="text" id="searchInput" oninput="renderGuestList()" placeholder="Buscar invitado por nombre..." class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs sm:text-sm rounded-xl pl-10 pr-10 py-3 transition-colors outline-none font-medium placeholder-slate-500">
+            <input type="text" id="searchInput" oninput="renderGuestList()" placeholder="Buscar invitado por nombre..." class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs sm:text-sm rounded-xl pl-10 pr-10 py-2.5 transition-colors outline-none font-medium placeholder-slate-500">
             <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300">
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -242,40 +199,40 @@
             
             <!-- VISTA PRINCIPAL O PAPELERA -->
             <div class="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center text-xs">
-              <button id="tabMain" onclick="switchView('active')" class="px-3 py-2 rounded-lg font-bold bg-sensual-600 text-white shadow">
-                <i class="fa-solid fa-users mr-1"></i> Lista Principal
+              <button id="tabMain" onclick="switchView('active')" class="px-2.5 py-1.5 rounded-lg font-bold bg-sensual-600 text-white shadow">
+                <i class="fa-solid fa-users mr-1"></i> Lista
               </button>
-              <button id="tabTrash" onclick="switchView('trash')" class="px-3 py-2 rounded-lg font-bold text-slate-400 hover:text-white flex items-center gap-1">
-                <i class="fa-solid fa-trash-can"></i> Papelera <span id="trashBadge" class="bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded-full text-[10px]">0</span>
+              <button id="tabTrash" onclick="switchView('trash')" class="px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white flex items-center gap-1">
+                <i class="fa-solid fa-trash-can"></i> <span id="trashBadge" class="bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded-full text-[10px]">0</span>
               </button>
             </div>
 
             <!-- FILTRO ESTADO -->
-            <select id="filterStatus" onchange="renderGuestList()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs font-semibold rounded-xl px-3 py-2.5 outline-none focus:border-sensual-600">
+            <select id="filterStatus" onchange="renderGuestList()" class="bg-slate-950 border border-slate-800 text-slate-300 text-xs font-semibold rounded-xl px-2.5 py-2 outline-none focus:border-sensual-600">
               <option value="ALL">Todos</option>
               <option value="DENTRO">Ingresaron</option>
               <option value="PENDIENTE">Pendientes</option>
             </select>
 
             <!-- NUEVO INVITADO -->
-            <button onclick="toggleAddForm()" class="flex-1 lg:flex-none flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white rounded-xl text-xs font-bold transition-all border border-sensual-700 shadow-md">
+            <button onclick="toggleAddForm()" class="flex-1 lg:flex-none flex items-center justify-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-sensual-600 to-rose-600 hover:from-sensual-500 hover:to-rose-500 text-white rounded-xl text-xs font-bold transition-all border border-sensual-700 shadow-md">
               <i class="fa-solid fa-user-plus"></i>
-              <span>Cargar Invitado</span>
+              <span>Cargar</span>
             </button>
           </div>
 
         </div>
 
         <!-- FORMULARIO DE ALTA DE INVITADOS -->
-        <form id="addGuestForm" onsubmit="handleAddGuest(event)" class="hidden border-t border-slate-800/80 pt-4 mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <form id="addGuestForm" onsubmit="handleAddGuest(event)" class="hidden border-t border-slate-800/80 pt-3 mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 text-xs">
           <div class="lg:col-span-2">
-            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nombre Completo</label>
-            <input type="text" id="newGuestName" required placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Nombre Completo</label>
+            <input type="text" id="newGuestName" required placeholder="Ej: Juan Pérez" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2 outline-none">
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Tipo de Entrada</label>
-            <select id="newGuestType" onchange="autoFillPrice()" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Tipo de Entrada</label>
+            <select id="newGuestType" onchange="autoFillPrice()" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2 outline-none">
               <option value="ANTICIPADA">Anticipada ($8.000)</option>
               <option value="PUERTA">En Puerta ($12.000)</option>
               <option value="FREE">Free ($0)</option>
@@ -284,8 +241,8 @@
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Medio de Pago</label>
-            <select id="newGuestPayment" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Medio de Pago</label>
+            <select id="newGuestPayment" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2 outline-none">
               <option value="Mercado Pago">Mercado Pago</option>
               <option value="Efectivo">Efectivo</option>
               <option value="N/A">N/A (Free/Invitado)</option>
@@ -293,17 +250,17 @@
           </div>
 
           <div>
-            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Comprobante</label>
-            <select id="newGuestReceipt" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2.5 outline-none">
+            <label class="block text-[10px] font-semibold text-slate-400 mb-1">Comprobante</label>
+            <select id="newGuestReceipt" class="w-full bg-slate-950 border border-slate-800 focus:border-sensual-600 text-white text-xs rounded-xl px-3 py-2 outline-none">
               <option value="Entregado">Entregado / Sí</option>
               <option value="Pendiente">Pendiente / No</option>
               <option value="N/A">N/A</option>
             </select>
           </div>
 
-          <div class="sm:col-span-2 lg:col-span-5 flex justify-end gap-2 pt-2">
-            <button type="button" onclick="toggleAddForm()" class="px-4 py-2 bg-slate-950 hover:bg-slate-800 text-slate-400 rounded-xl text-xs font-semibold">Cancelar</button>
-            <button type="submit" class="px-5 py-2 bg-sensual-600 hover:bg-sensual-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sensual-900/40">Guardar Registro</button>
+          <div class="sm:col-span-2 lg:col-span-5 flex justify-end gap-2 pt-1">
+            <button type="button" onclick="toggleAddForm()" class="px-3 py-1.5 bg-slate-950 hover:bg-slate-800 text-slate-400 rounded-xl text-xs font-semibold">Cancelar</button>
+            <button type="submit" class="px-4 py-1.5 bg-sensual-600 hover:bg-sensual-500 text-white rounded-xl text-xs font-bold shadow-md shadow-sensual-900/40">Guardar Registro</button>
           </div>
         </form>
       </div>
@@ -316,14 +273,14 @@
           <table class="w-full text-left text-xs border-collapse">
             <thead>
               <tr class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
-                <th class="py-3.5 px-4">Invitado / Nombre</th>
-                <th class="py-3.5 px-4">Tipo Entrada</th>
-                <th class="py-3.5 px-4">Monto</th>
-                <th class="py-3.5 px-4">Medio Pago</th>
-                <th class="py-3.5 px-4">Comprobante</th>
-                <th class="py-3.5 px-4">Creado Por</th>
-                <th class="py-3.5 px-4">Ingreso / Validó</th>
-                <th class="py-3.5 px-4 text-right">Acciones</th>
+                <th class="py-3 px-4">Invitado / Nombre</th>
+                <th class="py-3 px-4">Tipo Entrada</th>
+                <th class="py-3 px-4">Monto</th>
+                <th class="py-3 px-4">Medio Pago</th>
+                <th class="py-3 px-4">Comprobante</th>
+                <th class="py-3 px-4">Creado Por</th>
+                <th class="py-3 px-4">Ingreso / Validó</th>
+                <th class="py-3 px-4 text-right">Acciones</th>
               </tr>
             </thead>
             <tbody id="guestTableBody" class="divide-y divide-slate-800/60 font-medium">
@@ -332,7 +289,7 @@
           </table>
         </div>
 
-        <!-- COMPONENTE CARDS MÓVIL -->
+        <!-- COMPONENTE CARDS MÓVIL (Optimizado con nombres grandes y botón verde más grande a la izquierda) -->
         <div id="guestCardsMobile" class="md:hidden divide-y divide-slate-800/80">
           <!-- Carga dinámicamente -->
         </div>
@@ -347,18 +304,18 @@
     </main>
   </div>
 
-  <!-- MODAL DE INFORMES DEL EVENTO -->
-  <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+  <!-- MODAL DE INFORMES DEL EVENTO (Con botones para WhatsApp de Resumen y Lista Detallada) -->
+  <div id="reportModal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden mx-auto my-auto">
       
-      <div class="p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
+      <div class="p-4 sm:p-5 border-b border-slate-800 flex items-center justify-between bg-slate-950">
         <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-sensual-950 border border-sensual-800 text-rose-400 flex items-center justify-center text-lg">
+          <div class="w-8 h-8 rounded-xl bg-sensual-950 border border-sensual-800 text-rose-400 flex items-center justify-center text-base">
             <i class="fa-solid fa-chart-pie"></i>
           </div>
           <div>
-            <h2 class="font-bold text-lg text-white">Informe Sensual Fest</h2>
-            <p class="text-xs text-slate-400" id="reportEventTitle">Estadísticas e Ingresos</p>
+            <h2 class="font-bold text-base sm:text-lg text-white">Informe Sensual Fest</h2>
+            <p class="text-[11px] text-slate-400" id="reportEventTitle">Estadísticas e Ingresos</p>
           </div>
         </div>
         <button onclick="closeReportModal()" class="w-8 h-8 rounded-full bg-slate-800 text-slate-400 hover:text-white flex items-center justify-center">
@@ -366,39 +323,39 @@
         </button>
       </div>
 
-      <div class="p-5 overflow-y-auto space-y-4 text-xs">
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-3.5 text-xs">
         
-        <div class="grid grid-cols-2 gap-3">
-          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl">
+        <div class="grid grid-cols-2 gap-2.5">
+          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl">
             <p class="text-slate-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">Porcentaje Asistencia</p>
-            <p class="text-2xl font-black text-white" id="rep-asistencia">0%</p>
-            <p class="text-[11px] text-slate-400 mt-1" id="rep-asistencia-det">0 ingresados de 0 en lista</p>
+            <p class="text-xl sm:text-2xl font-black text-white" id="rep-asistencia">0%</p>
+            <p class="text-[10px] text-slate-400 mt-0.5" id="rep-asistencia-det">0 ingresados de 0 en lista</p>
           </div>
 
-          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl">
+          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl">
             <p class="text-slate-400 font-semibold mb-1 uppercase tracking-wider text-[10px]">Recaudación Total</p>
-            <p class="text-2xl font-black text-emerald-400" id="rep-total-monto">$0</p>
-            <p class="text-[11px] text-slate-400 mt-1">Total abonado por ingresados</p>
+            <p class="text-xl sm:text-2xl font-black text-emerald-400" id="rep-total-monto">$0</p>
+            <p class="text-[10px] text-slate-400 mt-0.5">Total abonado por ingresados</p>
           </div>
         </div>
 
-        <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-3">
-          <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[11px] border-b border-slate-800 pb-2">
+        <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl space-y-2.5">
+          <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[10px] border-b border-slate-800 pb-1.5">
             Desglose por Tipo de Entrada
           </h3>
-          <div class="space-y-2">
+          <div class="space-y-1.5 text-xs">
             <div class="flex justify-between items-center">
               <span class="text-slate-300 font-semibold">Anticipadas ($8.000):</span>
               <div>
                 <span class="font-bold text-white" id="rep-cant-ant">0 pers.</span>
-                <span class="text-slate-400 ml-2" id="rep-monto-ant">($0)</span>
+                <span class="text-slate-400 ml-1.5" id="rep-monto-ant">($0)</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
               <span class="text-slate-300 font-semibold">En Puerta ($12.000):</span>
               <div>
                 <span class="font-bold text-white" id="rep-cant-puer">0 pers.</span>
-                <span class="text-slate-400 ml-2" id="rep-monto-puer">($0)</span>
+                <span class="text-slate-400 ml-1.5" id="rep-monto-puer">($0)</span>
               </div>
             </div>
             <div class="flex justify-between items-center">
@@ -408,30 +365,30 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
-            <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[11px] border-b border-slate-800 pb-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl space-y-2">
+            <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[10px] border-b border-slate-800 pb-1.5">
               Medios de Pago Cobrados
             </h3>
-            <div class="flex justify-between py-1">
+            <div class="flex justify-between py-0.5">
               <span class="text-slate-400">Mercado Pago:</span>
               <span class="font-bold text-cyan-400" id="rep-mp">$0</span>
             </div>
-            <div class="flex justify-between py-1">
+            <div class="flex justify-between py-0.5">
               <span class="text-slate-400">Efectivo:</span>
               <span class="font-bold text-emerald-400" id="rep-efectivo">$0</span>
             </div>
           </div>
 
-          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
-            <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[11px] border-b border-slate-800 pb-2">
+          <div class="bg-slate-950 border border-slate-800 p-3.5 rounded-2xl space-y-2">
+            <h3 class="font-bold text-slate-200 uppercase tracking-wider text-[10px] border-b border-slate-800 pb-1.5">
               Ingresos Validados Por
             </h3>
-            <div class="flex justify-between py-1">
+            <div class="flex justify-between py-0.5">
               <span class="text-slate-400">Maca (Puerta):</span>
               <span class="font-bold text-rose-400" id="rep-op-maca">0 personas</span>
             </div>
-            <div class="flex justify-between py-1">
+            <div class="flex justify-between py-0.5">
               <span class="text-slate-400">Carlos (Org):</span>
               <span class="font-bold text-indigo-400" id="rep-op-carlos">0 personas</span>
             </div>
@@ -440,16 +397,19 @@
 
       </div>
 
-      <div class="p-4 border-t border-slate-800 bg-slate-950 flex flex-wrap items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <button onclick="downloadCSV()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900/50 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
-            <i class="fa-solid fa-file-excel"></i> Descargar CSV (Excel)
+      <div class="p-3.5 sm:p-4 border-t border-slate-800 bg-slate-950 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-1.5">
+          <button onclick="downloadCSV()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900/50 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <i class="fa-solid fa-file-excel"></i> CSV
           </button>
-          <button onclick="copyWhatsAppSummary()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
-            <i class="fa-brands fa-whatsapp"></i> Copiar Resumen
+          <button onclick="copyWhatsAppSummary()" class="px-3 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <i class="fa-brands fa-whatsapp"></i> Resumen WApp
+          </button>
+          <button onclick="copyWhatsAppGuestList()" class="px-3 py-2 bg-emerald-800 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition-colors">
+            <i class="fa-brands fa-whatsapp"></i> Lista WApp
           </button>
         </div>
-        <button onclick="closeReportModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
+        <button onclick="closeReportModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold">
           Cerrar
         </button>
       </div>
@@ -583,7 +543,6 @@
             guests = docs;
             localStorage.setItem(storageKey, JSON.stringify(guests));
           } else {
-            // Si la colección está vacía, cargar local o inicial
             const savedLocal = localStorage.getItem(storageKey);
             if (savedLocal) {
               try { guests = JSON.parse(savedLocal); } catch(e) { guests = [...defaultInitialData]; }
@@ -594,7 +553,6 @@
           }
 
           renderGuestList();
-          updateStats();
         }, (err) => {
           console.error("Error al escuchar Firestore:", err);
           loadFromLocalStorage(storageKey);
@@ -612,7 +570,6 @@
         guests = [...defaultInitialData];
       }
       renderGuestList();
-      updateStats();
     }
 
     // FORZAR SINCRONIZACIÓN MANUAL
@@ -627,12 +584,10 @@
           const { collection, getDocs, setDoc, doc } = window.fsTools;
           const colRef = collection(window.db, "events", activeEventId, "guests");
           
-          // Subir locales a la nube
           for (let g of guests) {
             await setDoc(doc(colRef, g.id), g, { merge: true });
           }
 
-          // Descargar versión más reciente de la nube
           const snapshot = await getDocs(colRef);
           let remote = [];
           snapshot.forEach(d => remote.push(d.data()));
@@ -643,7 +598,6 @@
           }
 
           renderGuestList();
-          updateStats();
           showToast("¡Datos sincronizados correctamente con la Nube!");
         } catch (err) {
           console.error("Error al forzar sync:", err);
@@ -692,11 +646,11 @@
       const tabTrash = document.getElementById('tabTrash');
 
       if (view === 'active') {
-        tabMain.className = 'px-3 py-2 rounded-lg font-bold bg-sensual-600 text-white shadow';
-        tabTrash.className = 'px-3 py-2 rounded-lg font-bold text-slate-400 hover:text-white flex items-center gap-1';
+        tabMain.className = 'px-2.5 py-1.5 rounded-lg font-bold bg-sensual-600 text-white shadow';
+        tabTrash.className = 'px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white flex items-center gap-1';
       } else {
-        tabTrash.className = 'px-3 py-2 rounded-lg font-bold bg-sensual-600 text-white shadow flex items-center gap-1';
-        tabMain.className = 'px-3 py-2 rounded-lg font-bold text-slate-400 hover:text-white';
+        tabTrash.className = 'px-2.5 py-1.5 rounded-lg font-bold bg-sensual-600 text-white shadow flex items-center gap-1';
+        tabMain.className = 'px-2.5 py-1.5 rounded-lg font-bold text-slate-400 hover:text-white';
       }
 
       renderGuestList();
@@ -754,7 +708,6 @@
       guests.unshift(newGuest);
       saveSingleGuest(newGuest);
       renderGuestList();
-      updateStats();
 
       document.getElementById('newGuestName').value = '';
       toggleAddForm();
@@ -779,7 +732,6 @@
 
       saveSingleGuest(guest);
       renderGuestList();
-      updateStats();
     }
 
     function softDeleteGuest(id) {
@@ -789,7 +741,6 @@
       guest.deleted = true;
       saveSingleGuest(guest);
       renderGuestList();
-      updateStats();
       showToast(`${guest.name} movido a la Papelera`);
     }
 
@@ -800,21 +751,17 @@
       guest.deleted = false;
       saveSingleGuest(guest);
       renderGuestList();
-      updateStats();
       showToast(`${guest.name} restaurado a la lista principal`);
     }
 
     function permanentDeleteGuest(id) {
       if (!confirm("¿Seguro que querés eliminar definitivamente a este invitado?")) return;
       
-      const guest = guests.find(g => g.id === id);
       guests = guests.filter(g => g.id !== id);
-      
       deleteGuestFromFirestore(id);
       localStorage.setItem(`sensual_guests_${activeEventId}`, JSON.stringify(guests));
 
       renderGuestList();
-      updateStats();
       showToast(`Invitado eliminado definitivamente`);
     }
 
@@ -829,7 +776,7 @@
       renderGuestList();
     }
 
-    // RENDERIZADO DE TABLA Y TARJETAS
+    // RENDERIZADO DE TABLA Y TARJETAS MÓVILES (Con botón verde grande a la izquierda)
     function renderGuestList() {
       const query = document.getElementById('searchInput').value.toLowerCase().trim();
       const filter = document.getElementById('filterStatus').value;
@@ -873,20 +820,20 @@
         const tr = document.createElement('tr');
         tr.className = `transition-colors hover:bg-slate-950/60 ${guest.checkedIn ? 'bg-emerald-950/20' : ''}`;
         tr.innerHTML = `
-          <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+          <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full ${guest.checkedIn ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-slate-600'}"></span>
             ${guest.name}
           </td>
-          <td class="py-3.5 px-4">${typeBadge}</td>
-          <td class="py-3.5 px-4 font-semibold text-slate-300">${priceFormatted}</td>
-          <td class="py-3.5 px-4">
+          <td class="py-3 px-4">${typeBadge}</td>
+          <td class="py-3 px-4 font-semibold text-slate-300">${priceFormatted}</td>
+          <td class="py-3 px-4">
             <span class="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-slate-300 text-[11px]">
               ${guest.payment}
             </span>
           </td>
-          <td class="py-3.5 px-4">${receiptBadge}</td>
-          <td class="py-3.5 px-4 text-slate-400 font-medium">${guest.createdBy || 'Sistema'}</td>
-          <td class="py-3.5 px-4">
+          <td class="py-3 px-4">${receiptBadge}</td>
+          <td class="py-3 px-4 text-slate-400 font-medium">${guest.createdBy || 'Sistema'}</td>
+          <td class="py-3 px-4">
             ${guest.checkedIn ? `
               <div class="flex flex-col">
                 <span class="text-emerald-400 font-bold flex items-center gap-1">
@@ -896,7 +843,7 @@
               </div>
             ` : `<span class="text-amber-400/80 font-medium">Pendiente</span>`}
           </td>
-          <td class="py-3.5 px-4 text-right">
+          <td class="py-3 px-4 text-right">
             <div class="flex items-center justify-end gap-1.5">
               ${currentView === 'trash' ? `
                 <button onclick="restoreGuest('${guest.id}')" class="px-2.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-900">
@@ -918,56 +865,53 @@
         `;
         tableBody.appendChild(tr);
 
-        // MOBILE CARD
+        // MOBILE CARD (Nombre grande y botón verde grande a la izquierda)
         const card = document.createElement('div');
-        card.className = `p-4 space-y-3 transition-colors ${guest.checkedIn ? 'bg-emerald-950/15' : ''}`;
+        card.className = `p-3.5 flex items-center justify-between gap-3 transition-colors ${guest.checkedIn ? 'bg-emerald-950/20' : 'bg-slate-900/60'}`;
         card.innerHTML = `
-          <div class="flex items-start justify-between gap-2">
-            <div>
-              <h4 class="font-bold text-sm text-white flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full ${guest.checkedIn ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-slate-600'}"></span>
-                ${guest.name}
-              </h4>
-              <div class="flex items-center gap-2 mt-1">
-                ${typeBadge}
-                <span class="text-xs font-bold text-slate-300">${priceFormatted}</span>
-              </div>
-            </div>
+          <div class="flex items-center gap-3 flex-1 min-w-0">
+            <!-- Botón Verde más grande ubicado a la izquierda -->
             ${currentView === 'active' ? `
-              <button onclick="softDeleteGuest('${guest.id}')" class="text-slate-500 hover:text-rose-400 p-1">
-                <i class="fa-solid fa-trash-can"></i>
+              <button onclick="toggleCheckIn('${guest.id}')" class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-lg shadow-md transition-transform active:scale-95 ${guest.checkedIn ? 'bg-slate-800 text-emerald-400 border border-emerald-500/30' : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/50'}">
+                <i class="fa-solid ${guest.checkedIn ? 'fa-check-double' : 'fa-check'}"></i>
               </button>
-            ` : ''}
-          </div>
-
-          <div class="flex items-center justify-between text-xs bg-slate-950 p-2.5 rounded-xl border border-slate-800/80">
-            <div>
-              <span class="text-slate-500 block text-[10px]">Cargado por: <strong class="text-slate-300">${guest.createdBy || 'Sistema'}</strong></span>
-              <span class="font-semibold text-slate-300">${guest.payment}</span>
-            </div>
-            <div>${receiptBadge}</div>
-          </div>
-
-          <div class="flex items-center justify-between gap-2 pt-1">
-            <div>
-              ${guest.checkedIn ? `
-                <p class="text-xs text-emerald-400 font-bold">Validó: ${guest.confirmedBy}</p>
-                <p class="text-[10px] text-slate-400">Hora: ${guest.confirmedAt}</p>
-              ` : `<p class="text-xs text-amber-400/80 font-medium">Pendiente de ingreso</p>`}
-            </div>
-
-            ${currentView === 'trash' ? `
-              <div class="flex items-center gap-2">
-                <button onclick="restoreGuest('${guest.id}')" class="px-3 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-emerald-400 border border-emerald-900 flex items-center gap-1">
-                  <i class="fa-solid fa-rotate-left"></i> Restaurar
-                </button>
-                <button onclick="permanentDeleteGuest('${guest.id}')" class="px-2 py-1.5 text-rose-500 hover:text-rose-400">
-                  <i class="fa-solid fa-xmark"></i>
-                </button>
-              </div>
             ` : `
-              <button onclick="toggleCheckIn('${guest.id}')" class="px-4 py-2 rounded-xl font-bold text-xs shadow-md transition-transform active:scale-95 ${guest.checkedIn ? 'bg-slate-800 text-slate-300' : 'bg-emerald-600 text-white'}">
-                ${guest.checkedIn ? 'Anular' : 'Confirmar Ingreso'}
+              <div class="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center bg-slate-800 text-slate-500">
+                <i class="fa-solid fa-trash-can"></i>
+              </div>
+            `}
+
+            <div class="flex-1 min-w-0">
+              <h4 class="text-base sm:text-lg font-extrabold text-white truncate">${guest.name}</h4>
+              <div class="flex flex-wrap items-center gap-1.5 mt-0.5 text-xs">
+                ${typeBadge}
+                <span class="font-bold text-slate-200">${priceFormatted}</span>
+                <span class="text-slate-500">•</span>
+                <span class="text-slate-400">${guest.payment}</span>
+                <span class="text-slate-500">•</span>
+                ${receiptBadge}
+              </div>
+              <div class="mt-1">
+                ${guest.checkedIn ? `
+                  <span class="text-[11px] text-emerald-400 font-bold">✅ Ingresó (${guest.confirmedBy} - ${guest.confirmedAt})</span>
+                ` : `
+                  <span class="text-[11px] text-amber-400/80 font-medium">⏳ Pendiente</span>
+                `}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 flex-shrink-0">
+            ${currentView === 'trash' ? `
+              <button onclick="restoreGuest('${guest.id}')" class="px-2.5 py-1.5 rounded-xl font-bold text-xs bg-slate-800 text-emerald-400 border border-emerald-900" title="Restaurar">
+                <i class="fa-solid fa-rotate-left"></i>
+              </button>
+              <button onclick="permanentDeleteGuest('${guest.id}')" class="p-2 text-rose-500 hover:text-rose-400" title="Eliminar">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            ` : `
+              <button onclick="softDeleteGuest('${guest.id}')" class="p-2 text-slate-500 hover:text-rose-400 rounded-lg transition-colors" title="Mover a Papelera">
+                <i class="fa-solid fa-trash-can"></i>
               </button>
             `}
           </div>
@@ -977,18 +921,18 @@
     }
 
     function getTypeBadgeHTML(type) {
-      if (type === 'ANTICIPADA') return `<span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold">Anticipada $8K</span>`;
-      if (type === 'PUERTA') return `<span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-[10px] font-bold">Puerta $12K</span>`;
-      if (type === 'FREE') return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">Free</span>`;
-      return `<span class="px-2 py-0.5 rounded-full bg-sensual-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-bold">Invitado</span>`;
+      if (type === 'ANTICIPADA') return `<span class="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/25 text-[10px] font-bold">Antic $8K</span>`;
+      if (type === 'PUERTA') return `<span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/25 text-[10px] font-bold">Puerta $12K</span>`;
+      if (type === 'FREE') return `<span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 text-[10px] font-bold">Free</span>`;
+      return `<span class="px-2 py-0.5 rounded-full bg-sensual-500/10 text-rose-400 border border-rose-500/25 text-[10px] font-bold">Invitado</span>`;
     }
 
     function getReceiptBadgeHTML(receipt, id) {
       if (receipt === 'Entregado') {
-        return `<button onclick="toggleReceipt('${id}')" class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">Comprobante OK</button>`;
+        return `<button onclick="toggleReceipt('${id}')" class="px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[10px] font-bold">Comp. OK</button>`;
       }
       if (receipt === 'Pendiente') {
-        return `<button onclick="toggleReceipt('${id}')" class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-bold">Comp. Pendiente</button>`;
+        return `<button onclick="toggleReceipt('${id}')" class="px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20 text-[10px] font-bold">Comp. Pend.</button>`;
       }
       return `<span class="text-slate-500 text-[10px]">N/A</span>`;
     }
@@ -996,24 +940,6 @@
     function clearSearch() {
       document.getElementById('searchInput').value = '';
       renderGuestList();
-    }
-
-    function updateStats() {
-      const activeGuests = guests.filter(g => !g.deleted);
-      const total = activeGuests.length;
-      const checkedInList = activeGuests.filter(g => g.checkedIn);
-      const ingresados = checkedInList.length;
-
-      document.getElementById('stat-ingresados').innerText = `${ingresados} / ${total}`;
-
-      const totalMonto = checkedInList.reduce((acc, g) => acc + g.price, 0);
-      document.getElementById('stat-recaudado').innerText = `$${totalMonto.toLocaleString('es-AR')}`;
-
-      const cantAnt = checkedInList.filter(g => g.type === 'ANTICIPADA').length;
-      const cantPuer = checkedInList.filter(g => g.type === 'PUERTA').length;
-
-      document.getElementById('stat-anticipadas').innerText = cantAnt;
-      document.getElementById('stat-puerta').innerText = cantPuer;
     }
 
     // INFORMES Y EXPORTACIÓN COMPLETA
@@ -1091,6 +1017,7 @@
       showToast("Descargando archivo CSV para Excel...");
     }
 
+    // OPCIÓN 1: INFORME RESUMIDO PARA WHATSAPP
     function copyWhatsAppSummary() {
       const activeGuests = guests.filter(g => !g.deleted);
       const checkedInList = activeGuests.filter(g => g.checkedIn);
@@ -1114,23 +1041,50 @@
         `• Efectivo: $${ef.toLocaleString('es-AR')}\n\n` +
         `✅ *Validaciones:* Maca (${checkedInList.filter(g => g.confirmedBy === 'Maca').length}) | Carlos (${checkedInList.filter(g => g.confirmedBy === 'Carlos').length})`;
 
+      copyToClipboard(summary, "¡Resumen copiado para WhatsApp!");
+    }
+
+    // OPCIÓN 2: LISTA DE INVITADOS DETALLADA Y COMPACTA CON EMOJIS PARA WHATSAPP
+    function copyWhatsAppGuestList() {
+      const activeGuests = guests.filter(g => !g.deleted);
+      if (activeGuests.length === 0) {
+        showToast("No hay invitados en la lista");
+        return;
+      }
+
+      let text = `📋 *LISTA DE INVITADOS* (${getEventName(activeEventId)})\n`;
+      text += `----------------------------------------\n`;
+      
+      activeGuests.forEach((g, idx) => {
+        const emojiStatus = g.checkedIn ? '✅' : '⏳';
+        const typeShort = g.type === 'ANTICIPADA' ? 'Antic' : g.type === 'PUERTA' ? 'Puerta' : g.type;
+        text += `${idx + 1}. ${emojiStatus} *${g.name}* | ${typeShort} | $${g.price.toLocaleString('es-AR')} | ${g.payment}\n`;
+      });
+
+      text += `----------------------------------------\n`;
+      text += `👥 Total en lista: ${activeGuests.length} personas`;
+
+      copyToClipboard(text, "¡Lista de invitados copiada para WhatsApp!");
+    }
+
+    function copyToClipboard(text, successMsg) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(summary).then(() => {
-          showToast("¡Resumen copiado para WhatsApp!");
-        }).catch(() => fallbackCopyText(summary));
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => fallbackCopyText(text, successMsg));
       } else {
-        fallbackCopyText(summary);
+        fallbackCopyText(text, successMsg);
       }
     }
 
-    function fallbackCopyText(text) {
+    function fallbackCopyText(text, successMsg) {
       const textArea = document.createElement("textarea");
       textArea.value = text;
       document.body.appendChild(textArea);
       textArea.select();
       try {
         document.execCommand('copy');
-        showToast("¡Resumen copiado para WhatsApp!");
+        showToast(successMsg);
       } catch (err) {
         alert(text);
       }
